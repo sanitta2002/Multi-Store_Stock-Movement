@@ -6,10 +6,10 @@ dotenv.config()
 export class DatabaseConfig {
     private databaseurl:string
     constructor(){
-        if(!process.env.DB_URL){
+        if(!process.env.MONGODB_URI){
             throw new Error(errorMessage.MONGO_URI_NOT_DEFINED)
         }
-        this.databaseurl = process.env.DB_URL
+        this.databaseurl = process.env.MONGODB_URI
     }
     public async getDatabaseUrl():Promise<void>{
         try{
