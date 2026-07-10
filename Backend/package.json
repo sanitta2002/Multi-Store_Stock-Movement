@@ -8,13 +8,14 @@
     "mongoose": "^9.7.4"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^26.1.1",
-    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.23.0",
     "typescript": "^7.0.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev --respawn -r tsconfig-paths/register src/server.ts",
+    "dev": "tsx watch src/server.ts",
     "build": "tsc && tsc-alias",
     "start": "node dist/server.js"
   }
