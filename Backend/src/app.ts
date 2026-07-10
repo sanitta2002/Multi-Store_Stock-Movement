@@ -3,13 +3,17 @@ import dotenv from "dotenv"
 dotenv.config();
 import cors from "cors"
 import cookieParser from "cookie-parser"
+import { AuthRoutes } from "./routes/authRoutes/authRoutes";
+import { injectable } from "tsyringe";
 
+@injectable()
 export class App{
     private app: Application;
     constructor(){
         this.app = express();
         this.app.use(express.json());
         this.setMiddleware();
+        this.setRoutes();
     }
     public listen(): void{
         this.app.listen(process.env.PORT, () => {
@@ -23,5 +27,9 @@ export class App{
             credentials: true,
         }));
         this.app.use(cookieParser());
+    }
+    private setRoutes(){
+        const authRoutes = new AuthRoutes();
+        this.app.use('/api/auth',authRoutes.getAuthRouter());
     }
 }
