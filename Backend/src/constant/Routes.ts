@@ -12,3 +12,11 @@ export const PRODUCT_ROUTES = {
   UPDATE: "/:id",
   DELETE: "/:id",
 };
+
+export const STORE_ROUTES ={
+  CREATE: "/",
+  GET_ALL: "/",
+  GET_BY_ID: "/:id",
+  UPDATE: "/:id",
+  DELETE: "/:id",
+}

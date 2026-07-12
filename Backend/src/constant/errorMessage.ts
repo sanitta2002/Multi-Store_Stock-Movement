@@ -19,5 +19,8 @@ export enum errorMessage {
    TIMEOUT_ERROR = "Request timeout",
    CONFLICT_ERROR = "Conflict error",
    PRODUCT_ALREADY_EXIXTS ="Product SKU already exists",
-   PRODUCT_ID_REQUIRED = "Product ID is required"
+   PRODUCT_ID_REQUIRED = "Product ID is required",
+   STORE_ALREADY_EXISTS ="Store already exists",
+
+
 }

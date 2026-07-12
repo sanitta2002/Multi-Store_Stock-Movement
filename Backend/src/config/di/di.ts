@@ -8,6 +8,10 @@ import { IProductRepository } from "@/interface/repositories/IProductRepository"
 import { ProductRepository } from "@/repositories/ProductRepository";
 import { IProductService } from "@/interface/services/IProductService";
 import { ProductService } from "@/services/ProductService";
+import { IStoreRepository } from "@/interface/repositories/IStoreRepository";
+import { StoreRepository } from "@/repositories/StoreRepository";
+import { IStoreService } from "@/interface/services/IStoreService";
+import { StoreService } from "@/services/StoreService";
 
 
 container.register("IUserRepository", {
@@ -34,4 +38,14 @@ container.registerSingleton<IProductRepository>(
 container.registerSingleton<IProductService>(
   "IProductService",
   ProductService
+);
+
+container.registerSingleton<IStoreRepository>(
+  "IStoreRepository",
+  StoreRepository
+);
+
+container.registerSingleton<IStoreService>(
+  "IStoreService",
+  StoreService
 );
