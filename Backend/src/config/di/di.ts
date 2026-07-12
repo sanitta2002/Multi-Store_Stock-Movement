@@ -18,6 +18,8 @@ import { IStockService } from "@/interface/services/IStockService";
 import { StockService } from "@/services/StockService";
 import { ITransferService } from "@/interface/services/ITransferService";
 import { TransferService } from "@/services/TransferService";
+import { IShopperService } from "@/interface/services/IShopperService";
+import { ShopperService } from "@/services/ShopperService";
 
 
 container.register("IUserRepository", {
@@ -70,3 +72,7 @@ container.registerSingleton<ITransferService>(
     TransferService
 );
 
+container.registerSingleton<IShopperService>(
+    "IShopperService",
+    ShopperService
+);

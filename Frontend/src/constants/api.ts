@@ -7,4 +7,6 @@ export const API_ROUTES = {
     STORES: "/stores",
     STOCK: "/stocks",
     TRANSFERS: "/transfers",
+    SHOPPER_PRODUCTS: "/shop/products",
+    SHOPPER_STOCKS: "/shop/stocks",
 }

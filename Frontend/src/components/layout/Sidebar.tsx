@@ -4,6 +4,7 @@ import {
   Boxes,
   ArrowRightLeft,
   LogOut,
+  ShoppingBag,
 } from "lucide-react";
 
 import { NavLink } from "react-router-dom";
@@ -28,6 +29,11 @@ const menus = [
     name: "Transfers",
     path: "/transfers",
     icon: ArrowRightLeft,
+  },
+  {
+    name: "Shopper View",
+    path: "/shop",
+    icon: ShoppingBag,
   },
 ];
 

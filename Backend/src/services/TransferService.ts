@@ -43,7 +43,6 @@ export class TransferService implements ITransferService {
       );
 
     if (!destinationStock) {
-      // If the destination store has never held this product, create a new stock record with 0 quantity
       destinationStock = await this._stockRepository.create({
         product: new mongoose.Types.ObjectId(productId),
         store: new mongoose.Types.ObjectId(toStoreId),
