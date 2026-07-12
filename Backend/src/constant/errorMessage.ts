@@ -18,10 +18,6 @@ export enum errorMessage {
    SERVICE_UNAVAILABLE = "Service unavailable",
    TIMEOUT_ERROR = "Request timeout",
    CONFLICT_ERROR = "Conflict error",
-   PAYLOAD_TOO_LARGE = "Payload too large",
-   UNSUPPORTED_MEDIA_TYPE = "Unsupported media type",
-   TOO_MANY_REQUESTS = "Too many requests",
-   NOT_IMPLEMENTED = "Not implemented",
-   BAD_GATEWAY = "Bad gateway",
-   GATEWAY_TIMEOUT = "Gateway timeout"
+   PRODUCT_ALREADY_EXIXTS ="Product SKU already exists",
+   PRODUCT_ID_REQUIRED = "Product ID is required"
 }

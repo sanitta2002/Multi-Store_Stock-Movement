@@ -4,7 +4,9 @@ dotenv.config();
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import AuthRoutes  from "./routes/authRoutes/authRoutes";
+import ProductRoutes from "./routes/productRoutes/productRoutes"
 import { injectable } from "tsyringe";
+
 
 @injectable()
 export class App{
@@ -30,5 +32,6 @@ export class App{
     }
     private setRoutes(){
         this.app.use('/api/auth',AuthRoutes);
+        this.app.use("/api/products", ProductRoutes);
     }
 }

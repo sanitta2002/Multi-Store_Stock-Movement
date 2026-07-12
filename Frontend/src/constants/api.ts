@@ -3,4 +3,5 @@ export const API_ROUTES = {
     LOGIN: "/auth/login",
     LOGOUT: "/auth/logout",
     REFRESH: "/auth/refresh",
+    PRODUCTS: "/products",
 }
