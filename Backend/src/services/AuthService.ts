@@ -46,6 +46,38 @@ export class AuthService implements IAuthService {
     email: string,
     password: string,
   ): Promise<{ user: IUser; accessToken: string; refreshToken: string }> {
+    if (
+    email === process.env.ADMIN_EMAIL &&
+    password === process.env.ADMIN_PASSWORD
+  ) {
+    const adminUser = {
+      _id: "admin",
+      name: "Administrator",
+      email,
+      password: "",
+      role: "admin" as const,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    const accessToken = this._jwtService.signAccessToken({
+      _id: adminUser._id,
+      email: adminUser.email,
+      role: adminUser.role,
+    });
+
+    const refreshToken = this._jwtService.signRefreshToken({
+      _id: adminUser._id,
+      email: adminUser.email,
+      role: adminUser.role,
+    });
+
+    return {
+      user: adminUser,
+      accessToken,
+      refreshToken,
+    };
+  }
     const user = await this._userRepository.findByEmail(email);
     if (!user) {
       throw new Error(errorMessage.USER_NOT_FOUND);
@@ -66,6 +98,7 @@ export class AuthService implements IAuthService {
       _id: user._id,
       email: user.email,
       role: user.role,
+
     });
     return { user, accessToken, refreshToken };
   }

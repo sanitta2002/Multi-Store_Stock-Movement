@@ -1,30 +1,54 @@
-import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "../store/store";
-import { clearAuthUser } from "../store/slices/authSlice";
+
+import { Package, Store, ArrowRightLeft, TrendingUp } from "lucide-react";
+import { PageHeader } from "../components/common/PageHeader";
+import { Card, CardContent } from "../components/common/Card";
 
 export default function Dashboard() {
-  const user = useSelector((state: RootState) => state.auth.user);
-  const dispatch = useDispatch();
-
-  const handleLogout = () => {
-    dispatch(clearAuthUser());
-  };
+  const stats = [
+    { name: "Total Products", value: "0", icon: Package, color: "text-blue-600", bg: "bg-blue-100" },
+    { name: "Active Stores", value: "0", icon: Store, color: "text-green-600", bg: "bg-green-100" },
+    { name: "Total Stock Items", value: "0", icon: TrendingUp, color: "text-purple-600", bg: "bg-purple-100" },
+    { name: "Recent Transfers", value: "0", icon: ArrowRightLeft, color: "text-orange-600", bg: "bg-orange-100" },
+  ];
 
   return (
-    <div className="min-h-screen bg-white text-black flex flex-col items-center justify-center p-4 font-sans">
-      <div className="max-w-md w-full border border-black p-8 rounded-none shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-white transition-all duration-300">
-        <h1 className="text-4xl font-extrabold mb-6 tracking-tight uppercase border-b-4 border-black pb-4 text-center">
-          Dashboard
-        </h1>
-        <p className="text-xl mb-8 font-medium text-center">
-          Welcome back, {user?.name || "User"}!
-        </p>
-        <button
-          onClick={handleLogout}
-          className="w-full bg-black text-white py-3 px-4 font-bold uppercase tracking-widest hover:bg-white hover:text-black hover:border-black border-2 border-black transition-all duration-300 ease-in-out hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:outline-none focus:ring-4 focus:ring-black focus:ring-opacity-50"
-        >
-          Logout
-        </button>
+    <div className="p-6 max-w-7xl mx-auto">
+      <PageHeader 
+        title="Admin Dashboard" 
+        description="Overview of your stores, products, and stock movements." 
+      />
+
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((item) => (
+          <Card key={item.name}>
+            <CardContent className="flex items-center p-6">
+              <div className={`p-3 rounded-lg ${item.bg}`}>
+                <item.icon className={`h-6 w-6 ${item.color}`} />
+              </div>
+              <div className="ml-5 w-0 flex-1">
+                <dl>
+                  <dt className="text-sm font-medium text-gray-500 truncate">{item.name}</dt>
+                  <dd className="text-2xl font-semibold text-gray-900">{item.value}</dd>
+                </dl>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <div className="mt-8">
+        <Card>
+          <div className="px-6 py-5 border-b border-gray-200">
+            <h3 className="text-lg leading-6 font-medium text-gray-900">
+              Recent Activity
+            </h3>
+          </div>
+          <CardContent>
+            <div className="text-center py-10 text-gray-500">
+              No recent activity to display.
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

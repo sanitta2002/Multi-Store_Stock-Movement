@@ -7,12 +7,25 @@ import { loginSchema, type LoginFormData } from "../validation/authValidation";
 import { FRONT_ROUTES } from "../constants/frontRoutes";
 import { setAuthUser } from "../store/slices/authSlice";
 import { setAccessToken } from "../store/slices/tokenSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import type { RootState } from "../store/store";
 
 
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      if (user.role === "admin") {
+        navigate(FRONT_ROUTES.DASHBOARD, { replace: true });
+      } else {
+        navigate(FRONT_ROUTES.SHOP, { replace: true });
+      }
+    }
+  }, [isAuthenticated, user, navigate]);
 
   const { mutate: login, isPending } = useLogin();
 
@@ -31,12 +44,25 @@ export default function Login() {
   const handleLogin = (data: LoginFormData) => {
     login(data, {
     onSuccess: (response) => {
-      dispatch(setAuthUser(response.user));
-      dispatch(setAccessToken(response.accessToken));
+      console.log("Login response:", response);
+
+      const user = response?.user ?? response?.data?.user ?? response;
+      const accessToken = response?.accessToken ?? response?.data?.accessToken ?? response?.token;
+
+      if (!user?.role) {
+        toast.error("Login failed: unexpected response from server.");
+        return;
+      }
+
+      dispatch(setAuthUser(user));
+      dispatch(setAccessToken(accessToken));
 
       toast.success("Login successful");
-      navigate(FRONT_ROUTES.DASHBOARD);
-      
+      if (user.role === "admin") {
+        navigate(FRONT_ROUTES.DASHBOARD, { replace: true });
+      } else {
+        navigate(FRONT_ROUTES.SHOP, { replace: true });
+      }
     },
   });
   };
