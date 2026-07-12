@@ -1,0 +1,23 @@
+export enum errorMessage {
+   MONGO_URI_NOT_DEFINED = "MONGO_URI is not defined in .env file",
+   FAILED_TO_CONNECT_DATABASE = "Failed to connect to the database",
+   USER_ALREADY_EXISTS = "User already exists",
+   USER_NOT_FOUND = "User not found",
+   INVALID_CREDENTIALS = "Invalid email or password",
+   INTERNAL_SERVER_ERROR = "Internal server error",
+   INVALID_PASSWORD = "Invalid password",
+   INVALID_TOKEN = "Invalid token",
+   TOKEN_EXPIRED = "Token has expired",
+   UNAUTHORIZED = "Unauthorized access",
+   FORBIDDEN = "Forbidden access",
+   RESOURCE_NOT_FOUND = "Resource not found",
+   BAD_REQUEST = "Bad request",
+   VALIDATION_ERROR = "Validation error",
+   DUPLICATE_KEY_ERROR = "Duplicate key error",
+   DATABASE_ERROR = "Database error",
+   SERVICE_UNAVAILABLE = "Service unavailable",
+   TIMEOUT_ERROR = "Request timeout",
+   CONFLICT_ERROR = "Conflict error",
+   PRODUCT_ALREADY_EXIXTS ="Product SKU already exists",
+   PRODUCT_ID_REQUIRED = "Product ID is required"
+}
