@@ -18,7 +18,6 @@ export default function Stores() {
     contact: string;
   }
 
-  // We are not adding dummy data as requested, just the UI structure.
   const data: Store[] = [];
 
   const columns: Column<Store>[] = [

@@ -21,7 +21,6 @@ export default function Transfers() {
     status: string;
   }
 
-  // We are not adding dummy data as requested, just the UI structure.
   const data: Transfer[] = [];
 
   const columns: Column<Transfer>[] = [

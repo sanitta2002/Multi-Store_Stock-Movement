@@ -18,8 +18,6 @@ export default function Products() {
     price: number;
     description: string;
   }
-
-  // We are not adding dummy data as requested, just the UI structure.
   const data: Product[] = [];
 
   const columns: Column<Product>[] = [

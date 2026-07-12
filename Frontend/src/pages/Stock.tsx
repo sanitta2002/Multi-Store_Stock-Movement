@@ -18,7 +18,6 @@ export default function Stock() {
     quantity: number;
   }
 
-  // We are not adding dummy data as requested, just the UI structure.
   const data: StockItem[] = [];
 
   const columns: Column<StockItem>[] = [
