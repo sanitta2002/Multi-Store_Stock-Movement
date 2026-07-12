@@ -3,7 +3,7 @@ import dotenv from "dotenv"
 dotenv.config();
 import cors from "cors"
 import cookieParser from "cookie-parser"
-import { AuthRoutes } from "./routes/authRoutes/authRoutes";
+import AuthRoutes  from "./routes/authRoutes/authRoutes";
 import { injectable } from "tsyringe";
 
 @injectable()
@@ -29,7 +29,6 @@ export class App{
         this.app.use(cookieParser());
     }
     private setRoutes(){
-        const authRoutes = new AuthRoutes();
-        this.app.use('/api/auth',authRoutes.getAuthRouter());
+        this.app.use('/api/auth',AuthRoutes);
     }
 }
