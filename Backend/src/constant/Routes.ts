@@ -20,3 +20,11 @@ export const STORE_ROUTES ={
   UPDATE: "/:id",
   DELETE: "/:id",
 }
+
+export const STOCK_ROUTES ={
+  CREATE: "/",
+  GET_ALL: "/",
+  GET_BY_ID: "/:id",
+  UPDATE: "/:id",
+  DELETE: "/:id",
+}

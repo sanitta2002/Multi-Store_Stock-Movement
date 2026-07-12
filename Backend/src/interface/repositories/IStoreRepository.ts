@@ -14,7 +14,7 @@ export interface IStoreRepository {
 
   findById(id: string): Promise<IStore | null>;
 
-  findByName(name: string): Promise<IStore | null>;
+  findByNameAndLocation(name: string, location: string): Promise<IStore | null>;
 
   update(
     id: string,

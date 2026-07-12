@@ -22,5 +22,9 @@ export enum errorMessage {
    PRODUCT_ID_REQUIRED = "Product ID is required",
    STORE_ALREADY_EXISTS ="Store already exists",
 
+   PRODUCT_NOT_FOUND = "Product not found",
+   STORE_NOT_FOUND = "Store not found",
+   
+
 
 }

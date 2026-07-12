@@ -38,8 +38,8 @@ export class StoreRepository implements IStoreRepository {
     return await StoreModel.findById(id);
   }
 
-  async findByName(name: string) {
-    return await StoreModel.findOne({ name });
+  async findByNameAndLocation(name: string, location: string) {
+    return await StoreModel.findOne({ name, location });
   }
 
   async update(

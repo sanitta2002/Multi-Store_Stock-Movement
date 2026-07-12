@@ -5,4 +5,6 @@ export const API_ROUTES = {
     REFRESH: "/auth/refresh",
     PRODUCTS: "/products",
     STORES: "/stores",
+    STOCK: "/stocks",
+    TRANSFERS: "/transfers",
 }

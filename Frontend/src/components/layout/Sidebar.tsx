@@ -1,5 +1,4 @@
 import {
-  LayoutDashboard,
   Package,
   Store,
   Boxes,
@@ -10,11 +9,6 @@ import {
 import { NavLink } from "react-router-dom";
 
 const menus = [
-  {
-    name: "Dashboard",
-    path: "/dashboard",
-    icon: LayoutDashboard,
-  },
   {
     name: "Products",
     path: "/products",

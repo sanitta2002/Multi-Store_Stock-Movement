@@ -82,7 +82,12 @@ export default function Stores() {
     const trimmedLocation = location.trim();
 
     if (!trimmedName || !trimmedLocation) {
-      toast.warning("Name and Location are required.");
+      toast.warning("Both Store Name and Location are required.");
+      return;
+    }
+
+    if (trimmedName.length < 3) {
+      toast.warning("Store Name must be at least 3 characters long.");
       return;
     }
 
@@ -178,13 +183,49 @@ export default function Stores() {
             onChange={(e) => setName(e.target.value)} 
             required
           />
-          <Input 
-            label="Location (Address)" 
-            placeholder="e.g. 123 Main St, City" 
-            value={location} 
-            onChange={(e) => setLocation(e.target.value)} 
-            required
-          />
+          <div className="w-full">
+            <label className="block text-sm font-medium text-gray-700 mb-1.5 tracking-wide">
+              Location
+            </label>
+            <select
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              required
+              className="block w-full rounded-xl border border-gray-200 shadow-sm px-4 py-2.5 transition-all duration-200 ease-in-out focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 sm:text-sm bg-gray-50/50 hover:bg-gray-50 text-gray-700"
+            >
+              <option value="" disabled>Select a location...</option>
+              <option value="Mumbai, Maharashtra">Mumbai, Maharashtra</option>
+              <option value="Delhi, Delhi">Delhi, Delhi</option>
+              <option value="Bengaluru, Karnataka">Bengaluru, Karnataka</option>
+              <option value="Hyderabad, Telangana">Hyderabad, Telangana</option>
+              <option value="Ahmedabad, Gujarat">Ahmedabad, Gujarat</option>
+              <option value="Chennai, Tamil Nadu">Chennai, Tamil Nadu</option>
+              <option value="Kolkata, West Bengal">Kolkata, West Bengal</option>
+              <option value="Pune, Maharashtra">Pune, Maharashtra</option>
+              <option value="Jaipur, Rajasthan">Jaipur, Rajasthan</option>
+              <option value="Surat, Gujarat">Surat, Gujarat</option>
+              <option value="Lucknow, Uttar Pradesh">Lucknow, Uttar Pradesh</option>
+              <option value="Kanpur, Uttar Pradesh">Kanpur, Uttar Pradesh</option>
+              <option value="Nagpur, Maharashtra">Nagpur, Maharashtra</option>
+              <option value="Indore, Madhya Pradesh">Indore, Madhya Pradesh</option>
+              <option value="Thane, Maharashtra">Thane, Maharashtra</option>
+              <option value="Bhopal, Madhya Pradesh">Bhopal, Madhya Pradesh</option>
+              <option value="Visakhapatnam, Andhra Pradesh">Visakhapatnam, Andhra Pradesh</option>
+              <option value="Patna, Bihar">Patna, Bihar</option>
+              <option value="Vadodara, Gujarat">Vadodara, Gujarat</option>
+              <option value="Ghaziabad, Uttar Pradesh">Ghaziabad, Uttar Pradesh</option>
+              <option value="Ludhiana, Punjab">Ludhiana, Punjab</option>
+              <option value="Agra, Uttar Pradesh">Agra, Uttar Pradesh</option>
+              <option value="Nashik, Maharashtra">Nashik, Maharashtra</option>
+              <option value="Faridabad, Haryana">Faridabad, Haryana</option>
+              <option value="Meerut, Uttar Pradesh">Meerut, Uttar Pradesh</option>
+              <option value="Rajkot, Gujarat">Rajkot, Gujarat</option>
+              <option value="Varanasi, Uttar Pradesh">Varanasi, Uttar Pradesh</option>
+              <option value="Coimbatore, Tamil Nadu">Coimbatore, Tamil Nadu</option>
+              <option value="Kochi, Kerala">Kochi, Kerala</option>
+              <option value="Chandigarh, Punjab">Chandigarh, Punjab</option>
+            </select>
+          </div>
         </form>
       </Modal>
     </div>

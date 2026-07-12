@@ -12,6 +12,12 @@ import { IStoreRepository } from "@/interface/repositories/IStoreRepository";
 import { StoreRepository } from "@/repositories/StoreRepository";
 import { IStoreService } from "@/interface/services/IStoreService";
 import { StoreService } from "@/services/StoreService";
+import { IStockRepository } from "@/interface/repositories/IStockRepository";
+import { StockRepository } from "@/repositories/StockRepository";
+import { IStockService } from "@/interface/services/IStockService";
+import { StockService } from "@/services/StockService";
+import { ITransferService } from "@/interface/services/ITransferService";
+import { TransferService } from "@/services/TransferService";
 
 
 container.register("IUserRepository", {
@@ -49,3 +55,18 @@ container.registerSingleton<IStoreService>(
   "IStoreService",
   StoreService
 );
+
+container.registerSingleton<IStockRepository>(
+  "IStockRepository",
+  StockRepository
+);
+
+container.registerSingleton<IStockService>(
+  "IStockService",
+  StockService
+);
+container.registerSingleton<ITransferService>(
+    "ITransferService",
+    TransferService
+);
+

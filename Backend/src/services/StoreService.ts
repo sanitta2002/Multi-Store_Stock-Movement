@@ -15,7 +15,7 @@ export class StoreService implements IStoreService {
     name: string,
     location: string
   ): Promise<IStore> {
-    const existingStore = await this._storeRepository.findByName(name);
+    const existingStore = await this._storeRepository.findByNameAndLocation(name, location);
 
     if (existingStore) {
       throw new Error(errorMessage.STORE_ALREADY_EXISTS);
@@ -55,9 +55,9 @@ export class StoreService implements IStoreService {
     id: string,
     data: Partial<IStore>
   ): Promise<IStore | null> {
-    if (data.name) {
+    if (data.name && data.location) {
       const existingStore =
-        await this._storeRepository.findByName(data.name);
+        await this._storeRepository.findByNameAndLocation(data.name, data.location);
 
       if (
         existingStore &&
