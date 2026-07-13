@@ -46,7 +46,7 @@ export default function Stock() {
   const handleOpenAdjust = (stock: Stock) => {
     setAdjustId(stock._id);
     setAdjustQty(String(stock.quantity));
-    setAdjustLabel(`${stock.product.name} @ ${stock.store.name}`);
+    setAdjustLabel(`${stock.product?.name || 'Unknown Product'} @ ${stock.store?.name || 'Unknown Store'}`);
     setIsAdjustModalOpen(true);
   };
 
@@ -118,14 +118,14 @@ export default function Stock() {
         <div className="flex items-center gap-2">
           <Package className="h-4 w-4 text-blue-400 shrink-0" />
           <div>
-            <p className="font-medium text-gray-800">{item.product.name}</p>
-            <p className="text-xs text-gray-400">{item.product.sku}</p>
+            <p className="font-medium text-gray-800">{item.product?.name || "Unknown Product"}</p>
+            <p className="text-xs text-gray-400">{item.product?.sku || "Unknown SKU"}</p>
           </div>
         </div>
       ),
     },
-    { header: "Store", cell: (item) => <span>{item.store.name}</span> },
-    { header: "Location", cell: (item) => <span className="text-gray-500 text-xs">{item.store.location}</span> },
+    { header: "Store", cell: (item) => <span>{item.store?.name || "Unknown Store"}</span> },
+    { header: "Location", cell: (item) => <span className="text-gray-500 text-xs">{item.store?.location || "N/A"}</span> },
     {
       header: "Quantity",
       cell: (item) => (
@@ -146,7 +146,7 @@ export default function Stock() {
             <Pencil className="h-4 w-4" />
           </button>
           <button
-            onClick={() => handleDelete(item._id, `${item.product.name} @ ${item.store.name}`)}
+            onClick={() => handleDelete(item._id, `${item.product?.name || 'Unknown'} @ ${item.store?.name || 'Unknown'}`)}
             className="text-gray-400 hover:text-red-600 transition-colors"
             title="Remove Stock"
           >

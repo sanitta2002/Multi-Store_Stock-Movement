@@ -3,11 +3,9 @@ import {
   Store,
   Boxes,
   ArrowRightLeft,
-  LogOut,
-  ShoppingBag,
 } from "lucide-react";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, } from "react-router-dom";
 
 const menus = [
   {
@@ -30,14 +28,13 @@ const menus = [
     path: "/transfers",
     icon: ArrowRightLeft,
   },
-  {
-    name: "Shopper View",
-    path: "/shop",
-    icon: ShoppingBag,
-  },
 ];
 
 export default function Sidebar() {
+
+
+
+
   return (
     <aside className="w-64 bg-black text-white flex flex-col">
 
@@ -78,13 +75,6 @@ export default function Sidebar() {
         })}
       </nav>
 
-      <button className="m-4 flex items-center gap-3 rounded-lg border border-gray-700 p-3 hover:bg-zinc-800">
-
-        <LogOut size={20} />
-
-        Logout
-
-      </button>
 
     </aside>
   );

@@ -20,7 +20,7 @@ export default function Login() {
   useEffect(() => {
     if (isAuthenticated && user) {
       if (user.role === "admin") {
-        navigate(FRONT_ROUTES.DASHBOARD, { replace: true });
+        navigate(FRONT_ROUTES.PRODUCTS, { replace: true });
       } else {
         navigate(FRONT_ROUTES.SHOP, { replace: true });
       }
