@@ -5,6 +5,10 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 import AuthRoutes  from "./routes/authRoutes/authRoutes";
 import ProductRoutes from "./routes/productRoutes/productRoutes"
+import StoreRoutes from "./routes/storeRoutes/storeRoutes"
+import StockRoutes from "./routes/stockRoutes/stockRoutes"
+import TransferRoutes from "./routes/transferRoutes/transferRoutes"
+import ShopperRoutes from "./routes/shopperRoutes/shopperRoutes"
 import { injectable } from "tsyringe";
 
 
@@ -33,5 +37,9 @@ export class App{
     private setRoutes(){
         this.app.use('/api/auth',AuthRoutes);
         this.app.use("/api/products", ProductRoutes);
+        this.app.use("/api/stores", StoreRoutes);
+        this.app.use("/api/stocks", StockRoutes);
+        this.app.use("/api/transfers", TransferRoutes);
+        this.app.use("/api/shop", ShopperRoutes);
     }
 }

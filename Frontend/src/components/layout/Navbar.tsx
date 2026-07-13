@@ -1,6 +1,20 @@
-import { Bell, UserCircle } from "lucide-react";
+import { Bell, UserCircle, LogOut } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { clearAuthUser } from "../../store/slices/authSlice";
+import { clearAccessToken } from "../../store/slices/tokenSlice";
+import { FRONT_ROUTES } from "../../constants/frontRoutes";
 
 export default function Navbar() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(clearAuthUser());
+    dispatch(clearAccessToken());
+    navigate(FRONT_ROUTES.LOGIN, { replace: true });
+  };
+
   return (
     <header className="flex items-center justify-between border-b bg-white px-8 py-5">
 
@@ -29,6 +43,14 @@ export default function Navbar() {
           </div>
 
         </div>
+
+        <button 
+          onClick={handleLogout}
+          className="ml-4 flex items-center justify-center rounded-full p-2 hover:bg-gray-100 text-gray-600 transition"
+          title="Logout"
+        >
+          <LogOut size={20} />
+        </button>
 
       </div>
 

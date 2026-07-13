@@ -19,5 +19,14 @@ export enum errorMessage {
    TIMEOUT_ERROR = "Request timeout",
    CONFLICT_ERROR = "Conflict error",
    PRODUCT_ALREADY_EXIXTS ="Product SKU already exists",
-   PRODUCT_ID_REQUIRED = "Product ID is required"
+   PRODUCT_ID_REQUIRED = "Product ID is required",
+   STORE_ALREADY_EXISTS ="Store already exists",
+
+   PRODUCT_NOT_FOUND = "Product not found",
+   STORE_NOT_FOUND = "Store not found",
+   
+   SOURCE_AND_DESTINATION_NOT_SAME ="Source and destination stores cannot be the same.",
+   QUANTITY_MUST_BE_GREATER_THEN_ZERO ="Quantity must be greater than zero.",
+   STOCK_NOT_FOUND = "Source stock not found.",
+   INSUFFICIENT_STOCK ="Insufficient stock.",
 }

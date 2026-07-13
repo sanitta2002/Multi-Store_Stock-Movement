@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Plus } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Plus, Pencil, Trash2 } from "lucide-react";
+import { toast } from "react-toastify";
 import { PageHeader } from "../components/common/PageHeader";
 import { Table } from "../components/common/Table";
 import type { Column } from "../components/common/Table";
@@ -7,72 +8,223 @@ import { Button } from "../components/common/Button";
 import { Modal } from "../components/common/Modal";
 import { Input } from "../components/common/Input";
 import { EmptyState } from "../components/common/EmptyState";
+import { useStores } from "../hooks/useStores";
+import type { Store } from "../types/store";
 
 export default function Stores() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editId, setEditId] = useState<string | null>(null);
 
-  interface Store {
-    id: string;
-    name: string;
-    location: string;
-    contact: string;
-  }
+  const { stores, isLoading, error, fetchStores, addStore, editStore, removeStore } = useStores();
 
-  const data: Store[] = [];
+  const [name, setName] = useState("");
+  const [location, setLocation] = useState("");
+
+  useEffect(() => {
+    fetchStores();
+  }, [fetchStores]);
+
+  const handleOpenCreate = () => {
+    setEditId(null);
+    setName("");
+    setLocation("");
+    setIsModalOpen(true);
+  };
+
+  const handleOpenEdit = (store: Store) => {
+    setEditId(store._id);
+    setName(store.name);
+    setLocation(store.location);
+    setIsModalOpen(true);
+  };
+
+  const handleDelete = async (id: string, storeName: string) => {
+    if (window.confirm(`Are you sure you want to delete the store "${storeName}"?`)) {
+      const result = await removeStore(id);
+      if (result.success) {
+        toast.success("Store deleted successfully");
+      } else {
+        toast.error(result.error || "Failed to delete store");
+      }
+    }
+  };
 
   const columns: Column<Store>[] = [
     { header: "Store Name", accessorKey: "name" },
     { header: "Location", accessorKey: "location" },
-    { header: "Contact Info", accessorKey: "contact" },
+    {
+      header: "Actions",
+      cell: (item) => (
+        <div className="flex items-center space-x-3">
+          <button 
+            onClick={() => handleOpenEdit(item)}
+            className="text-gray-400 hover:text-blue-600 transition-colors"
+            title="Edit Store"
+          >
+            <Pencil className="h-4 w-4" />
+          </button>
+          <button 
+            onClick={() => handleDelete(item._id, item.name)}
+            className="text-gray-400 hover:text-red-600 transition-colors"
+            title="Delete Store"
+          >
+            <Trash2 className="h-4 w-4" />
+          </button>
+        </div>
+      ),
+    },
   ];
 
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const trimmedName = name.trim();
+    const trimmedLocation = location.trim();
+
+    if (!trimmedName || !trimmedLocation) {
+      toast.warning("Both Store Name and Location are required.");
+      return;
+    }
+
+    if (trimmedName.length < 3) {
+      toast.warning("Store Name must be at least 3 characters long.");
+      return;
+    }
+
+    const payload = { name: trimmedName, location: trimmedLocation };
+    
+    let result;
+    if (editId) {
+      result = await editStore(editId, payload);
+    } else {
+      result = await addStore(payload);
+    }
+
+    if (result.success) {
+      toast.success(editId ? "Store updated successfully!" : "Store created successfully!");
+      setIsModalOpen(false);
+      setName("");
+      setLocation("");
+      setEditId(null);
+    } else {
+      toast.error(result.error || (editId ? "Failed to update store" : "Failed to create store"));
+    }
+  };
+
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="p-6 max-w-7xl mx-auto space-y-6">
       <PageHeader
         title="Stores"
         description="Manage your store locations."
         actions={
-          <Button onClick={() => setIsModalOpen(true)} leftIcon={<Plus className="h-5 w-5" />}>
+          <Button onClick={handleOpenCreate} leftIcon={<Plus className="h-5 w-5" />}>
             Create Store
           </Button>
         }
       />
 
-      {data.length > 0 ? (
-        <Table data={data} columns={columns} keyExtractor={(item) => item.id} />
-      ) : (
-        <EmptyState
-          title="No stores found"
-          description="Get started by adding a new store location."
-          action={
-            <Button onClick={() => setIsModalOpen(true)} leftIcon={<Plus className="h-5 w-5" />}>
-              Create Store
-            </Button>
-          }
-        />
+      {error && !isModalOpen && (
+        <div className="p-4 text-sm text-red-700 bg-red-100 rounded-lg shadow-sm border border-red-200">
+          <span className="font-semibold">Error:</span> {error}
+        </div>
       )}
+
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        {isLoading && stores.length === 0 ? (
+          <div className="flex justify-center items-center p-12">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          </div>
+        ) : stores.length > 0 ? (
+          <Table data={stores} columns={columns} keyExtractor={(item) => item._id} />
+        ) : (
+          <EmptyState
+            title="No stores found"
+            description="Get started by adding a new store location."
+            action={
+              <Button onClick={handleOpenCreate} leftIcon={<Plus className="h-5 w-5" />}>
+                Create Store
+              </Button>
+            }
+          />
+        )}
+      </div>
 
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title="Create New Store"
-      >
-        <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-          <Input label="Store Name" placeholder="e.g. Downtown Branch" />
-          <Input label="Location (Address)" placeholder="e.g. 123 Main St, City" />
-          <Input label="Contact Info" placeholder="e.g. contact@store.com" />
-          <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
-            <Button type="submit" className="sm:col-start-2">
-              Save Store
+        title={editId ? "Edit Store" : "Create New Store"}
+        footer={
+          <>
+            <Button 
+              type="submit" 
+              form="store-form"
+              isLoading={isLoading}
+              className="w-full sm:w-auto sm:ml-3 min-w-[120px]"
+            >
+              {editId ? "Save Changes" : "Save Store"}
             </Button>
             <Button
               type="button"
               variant="outline"
               onClick={() => setIsModalOpen(false)}
-              className="mt-3 sm:col-start-1 sm:mt-0"
+              disabled={isLoading}
+              className="mt-3 w-full sm:mt-0 sm:w-auto"
             >
               Cancel
             </Button>
+          </>
+        }
+      >
+        <form id="store-form" className="space-y-4" onSubmit={handleFormSubmit}>
+          <Input 
+            label="Store Name" 
+            placeholder="e.g. Downtown Branch" 
+            value={name} 
+            onChange={(e) => setName(e.target.value)} 
+            required
+          />
+          <div className="w-full">
+            <label className="block text-sm font-medium text-gray-700 mb-1.5 tracking-wide">
+              Location
+            </label>
+            <select
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              required
+              className="block w-full rounded-xl border border-gray-200 shadow-sm px-4 py-2.5 transition-all duration-200 ease-in-out focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 sm:text-sm bg-gray-50/50 hover:bg-gray-50 text-gray-700"
+            >
+              <option value="" disabled>Select a location...</option>
+              <option value="Mumbai, Maharashtra">Mumbai, Maharashtra</option>
+              <option value="Delhi, Delhi">Delhi, Delhi</option>
+              <option value="Bengaluru, Karnataka">Bengaluru, Karnataka</option>
+              <option value="Hyderabad, Telangana">Hyderabad, Telangana</option>
+              <option value="Ahmedabad, Gujarat">Ahmedabad, Gujarat</option>
+              <option value="Chennai, Tamil Nadu">Chennai, Tamil Nadu</option>
+              <option value="Kolkata, West Bengal">Kolkata, West Bengal</option>
+              <option value="Pune, Maharashtra">Pune, Maharashtra</option>
+              <option value="Jaipur, Rajasthan">Jaipur, Rajasthan</option>
+              <option value="Surat, Gujarat">Surat, Gujarat</option>
+              <option value="Lucknow, Uttar Pradesh">Lucknow, Uttar Pradesh</option>
+              <option value="Kanpur, Uttar Pradesh">Kanpur, Uttar Pradesh</option>
+              <option value="Nagpur, Maharashtra">Nagpur, Maharashtra</option>
+              <option value="Indore, Madhya Pradesh">Indore, Madhya Pradesh</option>
+              <option value="Thane, Maharashtra">Thane, Maharashtra</option>
+              <option value="Bhopal, Madhya Pradesh">Bhopal, Madhya Pradesh</option>
+              <option value="Visakhapatnam, Andhra Pradesh">Visakhapatnam, Andhra Pradesh</option>
+              <option value="Patna, Bihar">Patna, Bihar</option>
+              <option value="Vadodara, Gujarat">Vadodara, Gujarat</option>
+              <option value="Ghaziabad, Uttar Pradesh">Ghaziabad, Uttar Pradesh</option>
+              <option value="Ludhiana, Punjab">Ludhiana, Punjab</option>
+              <option value="Agra, Uttar Pradesh">Agra, Uttar Pradesh</option>
+              <option value="Nashik, Maharashtra">Nashik, Maharashtra</option>
+              <option value="Faridabad, Haryana">Faridabad, Haryana</option>
+              <option value="Meerut, Uttar Pradesh">Meerut, Uttar Pradesh</option>
+              <option value="Rajkot, Gujarat">Rajkot, Gujarat</option>
+              <option value="Varanasi, Uttar Pradesh">Varanasi, Uttar Pradesh</option>
+              <option value="Coimbatore, Tamil Nadu">Coimbatore, Tamil Nadu</option>
+              <option value="Kochi, Kerala">Kochi, Kerala</option>
+              <option value="Chandigarh, Punjab">Chandigarh, Punjab</option>
+            </select>
           </div>
         </form>
       </Modal>

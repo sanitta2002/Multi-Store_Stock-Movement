@@ -7,7 +7,7 @@ import ShopperDashboard from "../pages/ShopperDashboard";
 export default function ShopperRoutes() {
   return (
     <Routes>
-      <Route element={<ProtectedRoute allowedRoles={["user"]} />}>
+      <Route element={<ProtectedRoute allowedRoles={["user", "admin"]} />}>
       <Route element={<ShopperLayout />}>
         <Route
           path={FRONT_ROUTES.SHOP}
