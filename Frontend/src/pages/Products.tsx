@@ -107,7 +107,6 @@ export default function Products() {
     if (result.success) {
       toast.success(editId ? "Product updated successfully!" : "Product created successfully!");
       setIsModalOpen(false);
-      // Reset form
       setName("");
       setSku("");
       setDescription("");

@@ -13,7 +13,6 @@ export const useShopper = () => {
     setIsLoading(true);
     setError(null);
     try {
-      // Fetch both products and stocks simultaneously
       const [productsData, stocksData] = await Promise.all([
         getShopperProducts(1, 50, search),
         getShopperStocks(1, 500)

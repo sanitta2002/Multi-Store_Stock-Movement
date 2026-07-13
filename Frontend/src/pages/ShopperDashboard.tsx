@@ -92,9 +92,6 @@ export default function ShopperDashboard() {
                   <p className="text-gray-600 text-sm line-clamp-2">
                     {product.description || "No description available."}
                   </p>
-                  <div className="mt-4 inline-block px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg">
-                    ₹{(product.price || 0).toFixed(2)}
-                  </div>
                 </div>
 
                 <div className="bg-gray-50 p-6">

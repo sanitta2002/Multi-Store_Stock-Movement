@@ -18,13 +18,13 @@ export default function Stock() {
   const { products, fetchProducts } = useProducts();
   const { stores, fetchStores } = useStores();
 
-  // Add Stock modal
+  
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [productId, setProductId] = useState("");
   const [storeId, setStoreId] = useState("");
   const [quantity, setQuantity] = useState("");
 
-  // Adjust Stock modal
+
   const [isAdjustModalOpen, setIsAdjustModalOpen] = useState(false);
   const [adjustId, setAdjustId] = useState("");
   const [adjustQty, setAdjustQty] = useState("");
