@@ -53,20 +53,6 @@ The backend will automatically create necessary collections upon first start.
    ```
 4. Access the application in your browser (usually `http://localhost:5173`).
 
-## Environment Variables
-
-**Backend (`Backend/.env`)**
-```env
-PORT=3000
-MONGODB_URI=mongodb://127.0.0.1:27017/multistore
-JWT_SECRET=your_super_secret_jwt_key
-JWT_EXPIRES_IN=1d
-```
-
-**Frontend (`Frontend/.env`)**
-```env
-VITE_API_URL=http://localhost:3000/api
-```
 
 ## Running Tests
 *Note: Ensure you have `jest` installed and configured as per your testing setup.*
