@@ -1,0 +1,252 @@
+openapi: 3.0.3
+info:
+  title: Multi-Store Stock Movement API
+  version: 1.0.0
+  description: API for managing product stock across multiple stores.
+
+servers:
+  - url: http://localhost:3000/api
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "An error occurred"
+
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        sku:
+          type: string
+        description:
+          type: string
+
+    Store:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        location:
+          type: string
+
+    Stock:
+      type: object
+      properties:
+        _id:
+          type: string
+        product:
+          $ref: '#/components/schemas/Product'
+        store:
+          $ref: '#/components/schemas/Store'
+        quantity:
+          type: integer
+
+security:
+  - bearerAuth: []
+
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login user
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  token:
+                    type: string
+                  user:
+                    type: object
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /products:
+    get:
+      tags:
+        - Products
+      summary: List all products
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+    post:
+      tags:
+        - Products
+      summary: Create a new product (Admin only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, sku]
+              properties:
+                name:
+                  type: string
+                sku:
+                  type: string
+      responses:
+        '201':
+          description: Product created
+        '403':
+          description: Forbidden (Not an admin)
+
+  /stores:
+    get:
+      tags:
+        - Stores
+      summary: List all stores
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Store'
+    post:
+      tags:
+        - Stores
+      summary: Create a new store (Admin only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, location]
+              properties:
+                name:
+                  type: string
+                location:
+                  type: string
+      responses:
+        '201':
+          description: Store created
+        '403':
+          description: Forbidden
+
+  /stocks:
+    get:
+      tags:
+        - Stocks
+      summary: List stock levels across stores
+      parameters:
+        - in: query
+          name: threshold
+          schema:
+            type: integer
+          description: Filter stock levels at or below this threshold
+      responses:
+        '200':
+          description: Successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Stock'
+    post:
+      tags:
+        - Stocks
+      summary: Add/Adjust stock (Admin only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [productId, storeId, quantity]
+              properties:
+                productId:
+                  type: string
+                storeId:
+                  type: string
+                quantity:
+                  type: integer
+      responses:
+        '200':
+          description: Stock adjusted
+        '403':
+          description: Forbidden
+
+  /transfers:
+    post:
+      tags:
+        - Transfers
+      summary: Transfer stock between stores (Admin only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [productId, fromStoreId, toStoreId, quantity]
+              properties:
+                productId:
+                  type: string
+                fromStoreId:
+                  type: string
+                toStoreId:
+                  type: string
+                quantity:
+                  type: integer
+      responses:
+        '200':
+          description: Transfer successful
+        '400':
+          description: Validation error (e.g. quantity <= 0, insufficient stock)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
