@@ -3,6 +3,7 @@ import { inject, injectable } from "tsyringe";
 
 import { ITransferService } from "@/interface/services/ITransferService";
 import { IStockRepository } from "@/interface/repositories/IStockRepository";
+import { errorMessage } from "@/constant/errorMessage";
 
 @injectable()
 export class TransferService implements ITransferService {
@@ -19,11 +20,11 @@ export class TransferService implements ITransferService {
   ): Promise<void> {
 
     if (fromStoreId === toStoreId) {
-      throw new Error("Source and destination stores cannot be the same.");
+      throw new Error(errorMessage.SOURCE_AND_DESTINATION_NOT_SAME);
     }
 
     if (quantity <= 0) {
-      throw new Error("Quantity must be greater than zero.");
+      throw new Error(errorMessage.QUANTITY_MUST_BE_GREATER_THEN_ZERO);
     }
 
     const sourceStock =
@@ -33,7 +34,7 @@ export class TransferService implements ITransferService {
       );
 
     if (!sourceStock) {
-      throw new Error("Source stock not found.");
+      throw new Error(errorMessage.STOCK_NOT_FOUND);
     }
 
     let destinationStock =
@@ -51,7 +52,7 @@ export class TransferService implements ITransferService {
     }
 
     if (sourceStock.quantity < quantity) {
-      throw new Error("Insufficient stock.");
+      throw new Error(errorMessage.INSUFFICIENT_STOCK);
     }
 
     sourceStock.quantity -= quantity;

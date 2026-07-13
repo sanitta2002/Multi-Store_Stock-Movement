@@ -4,7 +4,6 @@ import { IStockRepository } from "@/interface/repositories/IStockRepository";
 import { IProductRepository } from "@/interface/repositories/IProductRepository";
 import { IStoreRepository } from "@/interface/repositories/IStoreRepository";
 import { IStock } from "@/models/stock/stockModel";
-import { PRODUCT_ROUTES } from "@/constant/Routes";
 import { errorMessage } from "@/constant/errorMessage";
 
 @injectable()

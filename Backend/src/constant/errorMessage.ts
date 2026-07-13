@@ -25,6 +25,8 @@ export enum errorMessage {
    PRODUCT_NOT_FOUND = "Product not found",
    STORE_NOT_FOUND = "Store not found",
    
-
-
+   SOURCE_AND_DESTINATION_NOT_SAME ="Source and destination stores cannot be the same.",
+   QUANTITY_MUST_BE_GREATER_THEN_ZERO ="Quantity must be greater than zero.",
+   STOCK_NOT_FOUND = "Source stock not found.",
+   INSUFFICIENT_STOCK ="Insufficient stock.",
 }
